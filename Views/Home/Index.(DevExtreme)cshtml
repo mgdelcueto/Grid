@@ -1,0 +1,202 @@
+@page
+@using  DevExtremeAsp.Extensions;
+@using System.Web;
+@using Microsoft.AspNetCore.Http;
+
+@functions{
+    string isinit()
+    {
+        string ret ="ddb";
+        int vdi=0;
+        try{
+            vdi=(int) ViewData["Init"];}
+        catch{}
+        if (vdi==1)
+        {
+            ret = "visibility:hidden";
+        }
+        return ret;
+    }
+}
+<h2>Materiales</h2>
+<input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "Material")'" />
+
+
+<div id="div_btn" style = @isinit()>
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn">Acciones</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="@Url.Action("Export", "Material")" class="elements"><span>Export</span></a>
+    <a href="@Url.Action("Delete", "Material")" class="elements"><span>Delete</span></a>
+    <a href="@Url.Action("Archive", "Material")" class="elements"><span>Archive</span></a>
+    <a href="@Url.Action("Otra", "Material")" class="elements"><span>Otra</span></a>
+  </div>
+</div>
+
+@*
+<div class="dropdown">
+  <button onclick="myFunction()"  class="dropbtn">Acciones</button>
+  <div class="dropdown-content">
+    <a href="@Url.Action("Export", "Material")" class="elements"><span>Export</span></a>
+    <a href="@Url.Action("Delete", "Material")" class="elements"><span>Delete</span></a>
+    <a href="@Url.Action("Archive", "Material")" class="elements"><span>Archive</span></a>
+    <a href="@Url.Action("Otra", "Material")" class="elements"><span>Otra</span></a>
+  </div>
+</div>
+*@
+</div>
+
+@*@Html.dataGrid()*@
+
+@*@Html.ColorfulHeading(1, "#aa3333", "Materials")*@
+@(Html.DevExtreme().DataGrid<TMaterial>()
+    .ID("gridContainer")
+    .HoverStateEnabled(true)
+    .RowAlternationEnabled(true)
+    .FilterPanel(f => f.Visible(true))
+    .ShowBorders(true)
+    .AllowColumnReordering(true)
+    .Selection(s => s.AllowSelectAll(false))
+    .Selection(s => s.Mode(SelectionMode.Multiple))
+    .Paging(p => p.PageSize(7))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    .DataSource(d => d.Mvc().Controller("TMaterial").LoadAction("Get").Key("MatRefer"))
+    .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+    .OnExporting("exporting")
+    .Columns(columns => {
+        columns.AddFor(m => m.MatRefer).Caption("Referencia");
+        columns.AddFor(m => m.MatDescr).Caption("Descripcion");
+        columns.AddFor(m => m.MatClass).Caption("Clase");
+        columns.AddFor(m => m.MatStatus).Caption("Status");
+        columns.AddFor(m => m.MatStDate).Caption("Fecha");
+    })
+    @*
+    .Summary(s => s
+        .TotalItems(totalItems => {
+            totalItems.AddFor(m => m.MatRefer).SummaryType(SummaryType.Count);
+        })
+        .GroupItems(groupItems => {
+            groupItems.Add().SummaryType(SummaryType.Count);
+        })
+    )
+    *@
+
+    .OnSelectionChanged("selection_changed")
+)
+
+
+<div id="materialInfo">
+    <p class="materialId"></p>
+    <p class="materialRe"></p>
+    <p class="materialDe"></p>
+</div>
+<div id="exportInfo">
+    <p class="exportText"></p>
+</div>
+
+
+<script>
+    function selection_changed(selectedItems) {
+        //alert("Hola Mundo");
+        var data = selectedItems.selectedRowsData[0];
+        if(data) {
+            var div = document.getElementById('div_btn');
+            div.style.visibility = 'visible';
+            $(".materialId").text("Datos del material seleccionado");
+            $(".materialRe").text(data.MatRefer);
+            $(".materialDe").text(data.MatDescr);
+        }
+        else{
+            var div = document.getElementById('div_btn');
+            div.style.visibility = 'hidden';
+        }
+    }
+</script>
+<script>
+    function initialize() {
+        var div = document.getElementById('div_btn');
+        div.style.visibility = 'invisible';
+    }
+</script>
+
+<script>
+    function exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Materials');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Materials.xlsx');
+            });
+        });
+        e.cancel = true;
+        $(".exportText").text("Ha intentado la exportacion");
+
+    }
+</script>
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}</script>
+
+@*
+<script>
+    function prevPage()
+    {
+        alert("entra en _pre");
+        int current_page = element.getAttribute('page');
+        if (current_page > 1) {
+            current_page--;
+        }
+        const ret = [];
+        ret.push(encodeURIComponent("current_page") + '=' + encodeURIComponent(current_page));
+        //document.getElementById("current_page").value = current_page.tostr();
+        //$(".current_page").text(current_page.tostr());
+        var url=window.location = window.location.href.split("?")[0];
+        url += ret ; //'?param=1'
+        window.location.href = url;
+    }
+
+    function nextPage()
+    {
+        alert("entra en _nex");
+        int current_page = element.getAttribute('page');
+        int num_pages = element.getAttribute('npages');
+        if (current_page < n_pages) {
+            current_page++;
+        }
+        const ret = [];
+        ret.push(encodeURIComponent("current_page") + '=' + encodeURIComponent(current_page));
+
+        var url=window.location = window.location.href.split("?")[0];
+        url += ret ; //'?param=1'
+        window.location.href = url;
+    }
+
+</script>
+*@

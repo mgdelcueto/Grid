@@ -1,0 +1,212 @@
+@charset "UTF-8";
+/**
+* mydataGrid(dg.mydg.css)
+* Version: 1.0.0
+* Build date: Sat Apr 30 2022
+*
+* Copyright (c)
+* Read about 
+*/
+.dropbtn {
+        background-color: #dde0e0;
+        color: rgb(25, 24, 24);
+        padding: 9px;
+        font-size: 11px;
+        border: 1px;
+        cursor: pointer;
+      }
+      
+      /* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+        background-color: #c8c6c6;
+      }
+      
+.menu-hor {
+	color: #222222;
+        background-color: #CCCCCC;
+        border-color: #888888;
+        text-align: center;
+}
+.row-full{
+	width: 100vw;
+        position: relative;
+}
+.foot-pager {
+        text-align: right;
+}
+
+.visible {
+            visibility: visible;
+            display:block;
+            color: #222222;
+            background-color: #EEEEEE;
+            border-color: #888888;
+            text-align: left;
+}
+.xvisible {
+            visibility: visible;
+            display:block;
+            text-align: left;
+}
+.invisible {
+            visibility: hidden;
+            display:none;
+            text-align: left;
+}
+.cont-titles {color: #666666;
+        background-color: #CCCCCC;
+        border-color: #888888;
+        text-align: center;
+}
+.cont-titles-l {color: #222222;
+        background-color: #CCCCCC;
+        border-color: #888888;
+        text-align: left;
+}
+.cont-body {color: #222222;
+        background-color: #CCCCCC;
+        border-color: #888888;
+        text-align: left;
+        }
+.table-norm {
+        border: 1px solid white;
+        width : 100%;
+        }
+.table-bold {
+        border: 1px solid white;
+        background-color: #CCCCCC;
+        width:100%;
+        }
+.div-bold {
+        visibility: visible;
+        display:block;
+        color: #222222;
+        font-weight: bold;
+        background-color: #CCCCCC;
+        border-color: #888888;
+        text-align: center;
+
+}
+.head-text {color: #FFFFFF;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #9370D8;
+        border-color: #000000;
+        border-top-color : #000000;
+        text-align: left;
+        height: 35px;
+        }
+
+.head-text:hover {color: #FFFFFF;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #8057D5;
+        border-color: #000000;
+        border-top-color : #000000;
+        text-align: left;
+        height: 35px;
+        }
+
+.line-text-pri {color: #555555;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #F5F5F5;
+        border-color: #000000;
+        text-align: left;
+        height: 35px;
+        }
+        
+.line-text-pri:hover {color: #555555;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #F5F5F5;
+        border-color: #000000;
+        text-align: left;
+        height: 35px;
+}
+.line-text-alt {color: #555555;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #FFFFFF;
+        border-color: #000000;
+        text-align: left;
+        height: 35px;
+        }
+.line-text-alt:hover {color: #555555;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #F5F5F5;
+        border-color: #000000;
+        text-align: left;
+        height: 35px;
+        }
+.line-text-sel {color: #555555;
+        font-family: Verdana;
+        font-size: 10pt;
+        background-color: #dddddd;
+        border-color: #000000;
+        text-align: left;
+        height: 35px;
+        }
+        
+.col-text {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #FFFFFF;
+        text-align: right;
+        }
+.norm-text {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #FFFFFF;
+        text-align: left;
+        }
+.norm-num {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #FFFFFF;
+        text-align: right;
+        }
+.col-num {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #FFFFFF;
+        text-align: right;
+        }
+.medium-text {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #FFFFFF;
+        text-align: left;
+        font-size: large;
+        }
+.big-text {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #FFFFFF;
+        text-align: left;
+        width: 270px;
+        }
+.botcol-text {color: #222222;
+        background-color: #DDDDDD;
+        border-color: #888888;
+        text-align: right;
+        }
+.red-number {color: #222222;        
+        background-color: #DDDDDD;
+        border-color: #888888;
+        text-align: right;
+        }
+.blue-number {color: #222222;        
+        background-color: #DDDDDD;
+        border-color: #888888;
+        text-align: right;
+        }
+.botred-number {color: #222222;        
+        background-color: #DDDDDD;
+        border-color: #888888;
+        text-align: right;
+        }
+.botblue-number {color: #222222;        
+        background-color: #DDDDDD;
+        border-color: #888888;
+        text-align: right;
+        }
+.centerul {
+        display: flex;
+        justify-content: center;
+        }

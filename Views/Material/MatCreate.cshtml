@@ -1,0 +1,27 @@
+@*
+@{Layout = "_LyIndex";}
+*@
+@using DevExtremeAsp.Models
+@model TMaterial
+@*
+@using DevExtremeAsp.Resources
+@inject LocService SharedLocalizer
+*@
+
+@functions {
+}
+<div class="cont-titles">
+<h3>"Create Material"</h3>
+</div>
+@using (Html.BeginForm()) {
+   <div class="visible">
+    @Html.ValidationSummary(true)
+    <table class="table-norm" border ="1">
+        @Html.Partial("_pshowMaterials",Model)
+         <tr>
+            <td><input type="submit" value="Add"  name="actionType"/></td>
+            <td><input type="submit" value="Cancel" name="actionType"/></td>
+        </tr>
+    </table>
+    </div>
+}

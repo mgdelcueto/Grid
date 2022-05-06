@@ -1,0 +1,135 @@
+@using  DevExtremeAsp.Extensions;
+@using System
+@using System.Collections.Generic
+@functions{
+    string [] Controller(string Tablex){
+        string [] retur = new string [4];
+        switch (Tablex)
+        {
+            case "Material":
+                retur[0]="Material";
+                retur[1]="MatEdit";
+                retur[2]="MatCreate";
+                retur[3]="MatDelete";
+                break;
+            case "Personal":
+                retur[0]="Personal";
+                retur[1]="PersoEdit";
+                retur[2]="PersoCreate";
+                retur[3]="PersoDelete";
+                break;
+            default:
+                break;
+        }
+        return retur;
+    }
+
+    List<string> Columns(string Tablex,bool cabEx){
+        List<string> retur = new List<string>();
+        retur.Add(Tablex);
+        switch (Tablex)
+        {
+            case "Material":
+                if (cabEx)
+                {
+                    retur.Add("Referencia");
+                    retur.Add("Descripción");
+                    retur.Add("Status");
+                    retur.Add("Fecha Status");
+                    retur.Add("Clase");
+                }
+                else {
+                    retur.Add("MatRefer");
+                    retur.Add("MatDescr");
+                    retur.Add("MatStatus");
+                    retur.Add("MatStDate");
+                    retur.Add("MatClass");
+                }
+                break;
+            case "Personal":
+                if (cabEx)
+                {
+                    retur.Add("DNI");
+                    retur.Add("Nombre");
+                    retur.Add("Dirección");
+                    retur.Add("Pais");
+                }
+                else {
+                    retur.Add("PerDni");
+                    retur.Add("PerName");
+                    retur.Add("PerAddr");
+                    retur.Add("PerAddCtry");
+                }
+                break;
+            default:
+                break;
+        }
+        return retur;
+    }
+    public IEnumerable<Container> getData(string Tablex,dynamic oTMaterial)
+        {
+            List<string> Column =Columns (Tablex,true);
+            switch (Tablex)
+            {
+                case  "Material":
+                    IEnumerable<TMaterial> fTMaterial = (List<TMaterial>)oTMaterial;
+                    IEnumerable<Container> TMaterial = fTMaterial.Select(
+                        f => new Container() 
+                    {
+                        CampoId = f.MatId,
+                        Campo01 = f.MatRefer.ToString(),
+                        Campo02 = f.MatDescr.ToString(),
+                        Campo03 = f.MatStatus.ToString(),
+                        Campo04 = f.MatStDate.ToString(),
+                        Campo05 = f.MatClass.ToString(),
+                        Campo06 = f.MatId.ToString(), 
+                        Campo07 = f.MatDim1.ToString(),
+                        Campo08 = f.MatDim2.ToString(),
+                        Campo09 = f.MatDim3.ToString(),
+                        Campo10 = f.MatType.ToString(),
+                        Campo11 = f.MatUnMed.ToString(),
+                        Campo12 = f.MatWeight.ToString(),
+                        Campo13 = "",
+                        Campo14 = "",
+                        Campo15 = ""
+                    });
+                    return TMaterial;
+                case  "Personal":
+                    IEnumerable<TPerson> fTPersonal = (List<TPerson>)oTMaterial;
+                    IEnumerable<Container> TPersonal = fTPersonal.Select(
+                        f => new Container() 
+                    {
+                        CampoId = f.PerId,
+                        Campo01 = f.PerDni.ToString(),
+                        Campo02 = f.PerName.ToString(),
+                        Campo03 = f.PerAddr.ToString(),
+                        Campo04 = f.PerAddCtry.ToString(),
+                        Campo05 = "",
+                        Campo06 = "", 
+                        Campo07 = "",
+                        Campo08 = "",
+                        Campo09 = "",
+                        Campo10 = "",
+                        Campo11 = "",
+                        Campo12 = "",
+                        Campo13 = "",
+                        Campo14 = "",
+                        Campo15 = ""
+                    });
+                    return TPersonal;
+                default:
+                    return null;                
+            }
+        }
+}
+
+<h2>Material</h2>
+@Html.dataGrid(1,6,Columns("Material",true),@getData("Material",(List<TMaterial>)ViewBag.ListMat),@Controller("Material"))
+@*
+<h2>Material_2</h2>
+@Html.dataGrid(2,6,Columns("Personal",true),@getData("Personal",(List<TPerson>)ViewBag.ListPerson),@Controller("Personal"))
+*@
+@*
+<h2>Personal</h2>
+@Html.dataGrid(14,Columns("Personal",true),@getData("Personal",(List<TPerson>)ViewBag.ListPerson))
+*@

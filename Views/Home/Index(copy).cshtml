@@ -1,0 +1,88 @@
+@using DevExtremeAsp.Models
+@*
+@section ExternalDependencies {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.1/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.8.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+}
+*@
+<h2>Materiales</h2>
+
+
+@(Html.DevExtreme().DataGrid<TMaterial>()
+    .ID("gridContainer")
+    .FilterPanel(f => f.Visible(true))
+    .ShowBorders(true)
+    .AllowColumnReordering(true)
+    .Selection(s => s.AllowSelectAll(false))
+    .Selection(s => s.Mode(SelectionMode.Multiple))
+    .Paging(p => p.PageSize(7))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    .DataSource(d => d.Mvc().Controller("TMaterial").LoadAction("Get").Key("MatRefer"))
+    .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+    .OnExporting("exporting")
+    .Columns(columns => {
+        columns.AddFor(m => m.MatRefer);
+        columns.AddFor(m => m.MatDescr);
+        columns.AddFor(m => m.MatClass);
+        columns.AddFor(m => m.MatStatus);
+        columns.AddFor(m => m.MatStDate);
+    })
+    @*
+    .Summary(s => s
+        .TotalItems(totalItems => {
+            totalItems.AddFor(m => m.MatRefer).SummaryType(SummaryType.Count);
+        })
+        .GroupItems(groupItems => {
+            groupItems.Add().SummaryType(SummaryType.Count);
+        })
+    )
+    *@
+
+    .OnSelectionChanged("selection_changed")
+)
+
+<div id="materialInfo">
+    <p class="materialId"></p>
+    <p class="materialRe"></p>
+    <p class="materialDe"></p>
+</div>
+<div id="exportInfo">
+    <p class="exportText"></p>
+</div>
+<script>
+    function selection_changed(selectedItems) {
+    }
+    function _selection_changed(selectedItems) {
+        var data = selectedItems.selectedRowsData[0];
+        if(data) {
+            $(".materialId").text("Datos del material seleccionado");
+            $(".materialRe").text(data.MatRefer);
+            $(".materialDe").text(data.MatDescr);
+        }
+    }
+</script>
+
+<script>
+    function exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Materials');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Materials.xlsx');
+            });
+        });
+        e.cancel = true;
+        $(".exportText").text("Ha intentado la exportacion");
+
+    }
+</script>

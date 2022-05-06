@@ -1,0 +1,24 @@
+@model List<TMaterial>
+    <table class="table-norm" border="1">
+    <div class="cont-titles">
+    <h2>>Facilities Data</h2>
+    </div>
+    <tr>
+        <th class="head-text">Code</th> 
+        <th class="head-text">Description</th>                
+        <th class="head-text">Type</th>        
+    </tr>
+   
+    @foreach (var c in Model) {
+        <tr>
+            <td class ="col-text">@c.MatClass</td>            
+            <td class ="big-text">@c.MatDescr</td>
+            <td class ="norm-text">@c.MatId</td>
+            <td class="col-text">@Html.ActionLink("Delete", "FacDelete", new { id = c.MatId}, new { onclick="return confirm('Are you sure?');"})</td>
+            <td class="col-text">@Html.ActionLink("Edit", "FacEdit", new { id = c.MatId ,panel=1,vpanel=1})</td>
+            
+        </tr>
+    }
+    </table>
+    @Html.ActionLink("Add a New Item", "FacCreate")
+

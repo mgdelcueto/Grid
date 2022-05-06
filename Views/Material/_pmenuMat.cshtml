@@ -1,0 +1,58 @@
+@*
+@using MyErp.Resources
+@inject LocService SharedLocalizer
+*@
+@model TMaterial
+
+@functions {
+    string panelBold(int panel)
+    {   
+    string cstyle ="";
+    int tpan =0;
+    try{
+        tpan = (int)ViewData["pamen"];
+        if (panel==tpan)
+        {cstyle="font-weight:bold";}
+    }
+    catch{}
+    return cstyle;
+    }
+    int thisPanel(){
+         int opanel = (int)ViewData["panel"];
+         return opanel;
+    }
+
+}
+
+<div class="visible">
+    <table>
+        <div class="cont-titles-l">
+        @*<h2>>>@Html.DisplayFor(p => p.CustRaSoc)  @Html.DisplayFor(p => p.CustNif)</h2> *@
+        </div>
+        <table>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                           <a class="nav-link text-dark" style="@panelBold(1)" asp-area="" asp-controller="TEngine" asp-action="MatComp" asp-route-id="@Model.MatId" asp-route-pamen="1" asp-route-move="0">Components</a>
+                         </li>
+                        <li class="nav-item">
+                           <a class="nav-link text-dark" style="@panelBold(2)"asp-area="" asp-controller="TEngine" asp-action="MatBom" asp-route-id="@Model.MatId" asp-route-pamen="2" asp-route-move="0">BOM</a>
+                         </li>
+                        <li class="nav-item">
+                           <a class="nav-link text-dark" style="@panelBold(3)"asp-area="" asp-controller="TEngine" asp-action="MatImp" asp-route-id="@Model.MatId" asp-route-pamen="3" asp-route-move="0">Implosio</a>
+                         </li>
+                        <li class="nav-item">
+                           <a class="nav-link text-dark" style="@panelBold(4)"asp-area="" asp-controller="TEngine" asp-action="MatRoute" asp-route-id="@Model.MatId" asp-route-pamen="4" asp-route-move="0">Routing</a>
+                         </li>
+                        <li class="nav-item">
+                           <a class="nav-link text-dark" style="@panelBold(5)" asp-area="" asp-controller="TEngine" asp-action="MatLocal" asp-route-id="@Model.MatId"  asp-route-pamen="5" asp-route-move="0">Locations</a>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        </table>
+    </table>
+</div>

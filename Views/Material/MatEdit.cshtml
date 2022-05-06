@@ -1,0 +1,61 @@
+@*
+@{Layout = "_LyIndex";}
+*@
+@using DevExtremeAsp.Models
+@model TMaterial
+@*
+@using MyErp.Resources
+@inject LocService SharedLocalizer
+*@
+@functions {
+    string isVisible(int panel){
+        string retcol="";
+        int opanel = (int)ViewData["panel"];
+        if (opanel==panel){retcol="visible";}
+        else{retcol="invisible";}
+        return retcol;
+    }
+string assVisible(int mPanel)
+{
+    string retcol="invisible";
+    try{
+    if ((int)ViewData["Assign"]==mPanel)
+    {retcol="visible";}
+    }
+    catch{}
+    return retcol;
+ }
+private int VAssign(int mPanel){
+    int resul = 1;
+    try{
+    if ((int)ViewData["Assign"]==mPanel)
+    {resul=0;}
+    }
+    catch{}
+    return resul;
+
+}
+
+
+}
+
+
+
+<div class="cont-titles">
+<h3>Edit Materials</h3>
+</div>
+@using (Html.BeginForm()) {
+    <div class="visible">
+    @Html.HiddenFor(p => p.MatId)
+    @Html.ValidationSummary(true)
+    <table class="table-norm" border ="1">
+        @Html.Partial("_pshowMaterials",Model)
+        <tr>
+            <td><input type="submit" value="Update"  name="actionType"/></td>
+            <td><input type="submit" value="Cancel" name="actionType"/></td>
+        </tr>
+    </table>
+    </div>
+}
+@Html.Partial("_pmenuMat",Model)
+
